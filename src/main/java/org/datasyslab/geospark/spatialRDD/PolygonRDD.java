@@ -120,7 +120,7 @@ public class PolygonRDD implements Serializable {
      * @param rawPolygonRDD One existing raw SpatialRDD
      */
     public PolygonRDD(JavaRDD<Polygon> rawPolygonRDD) {
-        this.setRawPolygonRDD(rawPolygonRDD.persist(StorageLevel.MEMORY_ONLY()));
+        this.setRawPolygonRDD(rawPolygonRDD.persist(StorageLevel.MEMORY_AND_DISK_SER()));
     }
 
     /**
@@ -133,7 +133,7 @@ public class PolygonRDD implements Serializable {
      */ 
     public PolygonRDD(JavaSparkContext spark, String InputLocation, Integer Offset, String Splitter, Integer partitions) {
 
-        this.setRawPolygonRDD(spark.textFile(InputLocation, partitions).map(new PolygonFormatMapper(Offset, Splitter)));//.persist(StorageLevel.MEMORY_ONLY()));
+        this.setRawPolygonRDD(spark.textFile(InputLocation, partitions).map(new PolygonFormatMapper(Offset, Splitter)));//.persist(StorageLevel.MEMORY_AND_DISK_SER()));
     }
 
     /**
@@ -145,7 +145,7 @@ public class PolygonRDD implements Serializable {
      */
     public PolygonRDD(JavaSparkContext spark, String InputLocation, Integer Offset, String Splitter) {
 
-        this.setRawPolygonRDD(spark.textFile(InputLocation).map(new PolygonFormatMapper(Offset, Splitter)));//.persist(StorageLevel.MEMORY_ONLY()));
+        this.setRawPolygonRDD(spark.textFile(InputLocation).map(new PolygonFormatMapper(Offset, Splitter)));//.persist(StorageLevel.MEMORY_AND_DISK_SER()));
     }
 
 
@@ -168,8 +168,8 @@ public class PolygonRDD implements Serializable {
      */
     public PolygonRDD(JavaRDD<Polygon> rawPolygonRDD, String gridType, Integer numPartitions)
     {
-    	this.setRawPolygonRDD(rawPolygonRDD.persist(StorageLevel.MEMORY_ONLY()));
-    	 this.rawPolygonRDD.persist(StorageLevel.MEMORY_ONLY());
+    	this.setRawPolygonRDD(rawPolygonRDD.persist(StorageLevel.MEMORY_AND_DISK_SER()));
+    	 this.rawPolygonRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
          totalNumberOfRecords = this.rawPolygonRDD.count();
 
          doSpatialPartitioning(gridType,numPartitions);
@@ -197,8 +197,8 @@ public class PolygonRDD implements Serializable {
      */
     public PolygonRDD(JavaRDD<Polygon> rawPolygonRDD, String gridType)
     {
-    	this.setRawPolygonRDD(rawPolygonRDD.persist(StorageLevel.MEMORY_ONLY()));
-    	this.rawPolygonRDD.persist(StorageLevel.MEMORY_ONLY());
+    	this.setRawPolygonRDD(rawPolygonRDD.persist(StorageLevel.MEMORY_AND_DISK_SER()));
+    	this.rawPolygonRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
     	totalNumberOfRecords = this.rawPolygonRDD.count();
     	int numPartitions=this.rawPolygonRDD.getNumPartitions();
 
@@ -232,7 +232,7 @@ public class PolygonRDD implements Serializable {
      */
     public PolygonRDD(JavaSparkContext sc, String inputLocation, Integer offSet, String splitter, String gridType, Integer numPartitions) {
         this.rawPolygonRDD = sc.textFile(inputLocation).map(new PolygonFormatMapper(offSet, splitter));
-        this.rawPolygonRDD.persist(StorageLevel.MEMORY_ONLY());
+        this.rawPolygonRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
         totalNumberOfRecords = this.rawPolygonRDD.count();
 
         doSpatialPartitioning(gridType,numPartitions);
@@ -264,7 +264,7 @@ public class PolygonRDD implements Serializable {
      */
     public PolygonRDD(JavaSparkContext sc, String inputLocation, Integer offSet, String splitter, String gridType) {
         this.rawPolygonRDD = sc.textFile(inputLocation).map(new PolygonFormatMapper(offSet, splitter));
-        this.rawPolygonRDD.persist(StorageLevel.MEMORY_ONLY());
+        this.rawPolygonRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
         totalNumberOfRecords = this.rawPolygonRDD.count();
 
         int numPartitions=this.rawPolygonRDD.getNumPartitions();
@@ -356,7 +356,7 @@ public class PolygonRDD implements Serializable {
 						}
             	
             		});
-            this.indexedRDDNoId.persist(StorageLevel.MEMORY_ONLY());
+            this.indexedRDDNoId.persist(StorageLevel.MEMORY_AND_DISK_SER());
         }
         else
         {
@@ -375,7 +375,7 @@ public class PolygonRDD implements Serializable {
                 return result;
             }
         });
-        this.indexedRDD.persist(StorageLevel.MEMORY_ONLY());
+        this.indexedRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
         }
     }
     /**
@@ -493,7 +493,7 @@ public class PolygonRDD implements Serializable {
                 }
         );
 		this.rawPolygonRDD.unpersist();
-        this.gridPolygonRDD = unPartitionedGridPolygonRDD.partitionBy(new SpatialPartitioner(grids.size())).persist(StorageLevel.MEMORY_ONLY());
+        this.gridPolygonRDD = unPartitionedGridPolygonRDD.partitionBy(new SpatialPartitioner(grids.size())).persist(StorageLevel.MEMORY_AND_DISK_SER());
     }
 }
 

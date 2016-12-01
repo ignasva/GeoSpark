@@ -1,3 +1,7 @@
+A fork of [GeoSpark](https://github.com/DataSystemsLab/GeoSpark) (v0.3.2) where Spark's storage level is set to *MEMORY_AND_DISK_SER*. For more details see [this issue](https://github.com/DataSystemsLab/GeoSpark/issues/36).
+
+***
+
 ![GeoSpark Logo](http://www.public.asu.edu/~jiayu2/geospark/logo.png)
 
 [![Build Status](https://travis-ci.org/jiayuasu/GeoSpark.svg?branch=master)](https://travis-ci.org/jiayuasu/GeoSpark) [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.datasyslab/geospark/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.datasyslab/geospark)
@@ -64,8 +68,8 @@ Note: GeoSpark Master branch supports Apache Spark 2.X releases and GeoSpark for
 
 1. Create your own Apache Spark project in Scala or Java
 2. Add GeoSpark Maven coordinates into your project dependencies.
-4. You can now use GeoSpark APIs in your Spark program!
-5. Use spark-submit to submit your compiled self-contained Spark program.
+3. You can now use GeoSpark APIs in your Spark program!
+4. Use spark-submit to submit your compiled self-contained Spark program.
 
 ### GeoSpark Programming Examples (Scala)
 

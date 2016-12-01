@@ -117,7 +117,7 @@ public class PointRDD implements Serializable {
      */
     public PointRDD(JavaRDD<Point> rawPointRDD,String gridType, Integer numPartitions) {
         this.setRawPointRDD(rawPointRDD);
-        this.rawPointRDD.persist(StorageLevel.MEMORY_ONLY());
+        this.rawPointRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
         this.totalNumberOfRecords = this.rawPointRDD.count();
 
         doSpatialPartitioning(gridType,numPartitions);
@@ -145,7 +145,7 @@ public class PointRDD implements Serializable {
      */
     public PointRDD(JavaRDD<Point> rawPointRDD,String gridType) {
         this.setRawPointRDD(rawPointRDD);
-        this.rawPointRDD.persist(StorageLevel.MEMORY_ONLY());
+        this.rawPointRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
         this.totalNumberOfRecords = this.rawPointRDD.count();
 
         int numPartitions=this.rawPointRDD.getNumPartitions();
@@ -204,7 +204,7 @@ public class PointRDD implements Serializable {
      */
     public PointRDD(JavaSparkContext sc, String InputLocation, Integer offset, String splitter, String gridType, Integer numPartitions) {
         this.rawPointRDD = sc.textFile(InputLocation).map(new PointFormatMapper(offset, splitter));
-        this.rawPointRDD.persist(StorageLevel.MEMORY_ONLY());
+        this.rawPointRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
         this.totalNumberOfRecords = this.rawPointRDD.count();
 
         doSpatialPartitioning(gridType,numPartitions);
@@ -235,7 +235,7 @@ public class PointRDD implements Serializable {
      */    
     public PointRDD(JavaSparkContext sc, String InputLocation, Integer offset, String splitter, String gridType) {
         this.rawPointRDD = sc.textFile(InputLocation).map(new PointFormatMapper(offset, splitter));
-        this.rawPointRDD.persist(StorageLevel.MEMORY_ONLY());
+        this.rawPointRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
         this.totalNumberOfRecords = this.rawPointRDD.count();
 
         int numPartitions=this.rawPointRDD.getNumPartitions();
@@ -338,7 +338,7 @@ public class PointRDD implements Serializable {
 			                    return result.iterator();
 						}
             	
-            		}).persist(StorageLevel.MEMORY_ONLY());
+            		}).persist(StorageLevel.MEMORY_AND_DISK_SER());
             //this.rawPointRDD.unpersist();
             
         }
@@ -365,7 +365,7 @@ public class PointRDD implements Serializable {
             }
         }
         );
-        this.indexedRDD.persist(StorageLevel.MEMORY_ONLY());
+        this.indexedRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
         //this.rawPointRDD.unpersist();
         }
     }

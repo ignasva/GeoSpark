@@ -155,7 +155,7 @@ public class RectangleRDD implements Serializable {
 	public RectangleRDD(JavaRDD<Envelope> rawRectangleRDD, String gridType)
 	{
 		this.setRawRectangleRDD(rawRectangleRDD);
-		this.rawRectangleRDD.persist(StorageLevel.MEMORY_ONLY());
+		this.rawRectangleRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
 		totalNumberOfRecords = this.rawRectangleRDD.count();
 		
 		int numPartitions=this.rawRectangleRDD.getNumPartitions();
@@ -186,7 +186,7 @@ public class RectangleRDD implements Serializable {
 	public RectangleRDD(JavaRDD<Envelope> rawRectangleRDD, String gridType, Integer numPartitions)
 	{
 		this.setRawRectangleRDD(rawRectangleRDD);
-		this.rawRectangleRDD.persist(StorageLevel.MEMORY_ONLY());
+		this.rawRectangleRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
 		totalNumberOfRecords = this.rawRectangleRDD.count();
 		
 		
@@ -220,7 +220,7 @@ public class RectangleRDD implements Serializable {
      */
 	public RectangleRDD(JavaSparkContext sc, String inputLocation, Integer offSet, String splitter, String gridType, Integer numPartitions) {
 		this.rawRectangleRDD = sc.textFile(inputLocation).map(new RectangleFormatMapper(offSet, splitter));
-		this.rawRectangleRDD.persist(StorageLevel.MEMORY_ONLY());
+		this.rawRectangleRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
 		totalNumberOfRecords = this.rawRectangleRDD.count();
 		
 		
@@ -252,7 +252,7 @@ public class RectangleRDD implements Serializable {
      */
 	public RectangleRDD(JavaSparkContext sc, String inputLocation, Integer offSet, String splitter, String gridType) {
 		this.rawRectangleRDD = sc.textFile(inputLocation).map(new RectangleFormatMapper(offSet, splitter));
-		this.rawRectangleRDD.persist(StorageLevel.MEMORY_ONLY());
+		this.rawRectangleRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
 		totalNumberOfRecords = this.rawRectangleRDD.count();
 		
 		int numPartitions=this.rawRectangleRDD.getNumPartitions();
@@ -349,7 +349,7 @@ public class RectangleRDD implements Serializable {
 						}
             	
             		});
-            this.indexedRDDNoId.persist(StorageLevel.MEMORY_ONLY());
+            this.indexedRDDNoId.persist(StorageLevel.MEMORY_AND_DISK_SER());
 		}
 		else
 		{
@@ -372,7 +372,7 @@ public class RectangleRDD implements Serializable {
 				return result;
 			}
 		});//.partitionBy(new SpatialPartitioner(grids.size()));
-		this.indexedRDD.persist(StorageLevel.MEMORY_ONLY());
+		this.indexedRDD.persist(StorageLevel.MEMORY_AND_DISK_SER());
 		}
 	}
 
@@ -475,6 +475,6 @@ public class RectangleRDD implements Serializable {
                 }
         );
         this.rawRectangleRDD.unpersist();
-        this.gridRectangleRDD = unPartitionedGridRectangleRDD.partitionBy(new SpatialPartitioner(grids.size())).persist(StorageLevel.MEMORY_ONLY());
+        this.gridRectangleRDD = unPartitionedGridRectangleRDD.partitionBy(new SpatialPartitioner(grids.size())).persist(StorageLevel.MEMORY_AND_DISK_SER());
 	}
 }

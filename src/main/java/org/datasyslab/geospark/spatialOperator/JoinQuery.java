@@ -63,7 +63,7 @@ public class JoinQuery implements Serializable{
 		this.rectangleRDD.rawRectangleRDD=rectangleRDDUnpartitioned.rawRectangleRDD;
 		this.rectangleRDD.SpatialPartition(pointRDD.grids);
 		this.sc=sc;
-		//this.rectangleRDD.gridRectangleRDD.persist(StorageLevel.MEMORY_ONLY());
+		//this.rectangleRDD.gridRectangleRDD.persist(());
 	}
 	
 	/**
